@@ -1,8 +1,10 @@
 require 'rails_helper'
 
-describe RequestsController do
-  describe 'GET #new' do
-    before { get 'new' }
+describe Api::V1::CatsController do
+  describe 'GET #index' do
+    before do
+      get :index
+    end
 
     it 'returns status code 200' do
       expect(response).to have_http_status(:ok)
