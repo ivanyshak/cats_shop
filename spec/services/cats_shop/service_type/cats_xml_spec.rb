@@ -1,28 +1,50 @@
+# frozen_string_literal: true
+
 require 'rails_helper'
 
 describe CatsShop::ServiceType::CatsXml do
-  let(:json_resp) {"[{\"name\":\"Abyssin\",\"price\":500,\"location\":\"Lviv\",\"image\":\"https://olxua-ring02.akamaized.net/images_slandocomua/476948786_2_1000x700_abissenysh-chempion-fotografii.jpg\"}]"}
-  let(:parsed_xml_resp) {{
-    "name"=>"Abyssin",
-    "price"=>'500',
-    "location"=>"Odessa",
-    "img"=>"https://olxua-ring02.akamaized.net/images_slandocomua/476948786_2_1000x700_abissenysh-chempion-fotografii.jpg"
-  }}
+  let(:json_resp) do
+    '[{
+      "name":"Abyssin",
+      "price":500,
+      "location":"Lviv"
+    }]'
+  end
 
-  let(:xml_resp) {"<?xml version=\"1.0\" encoding=\"UTF-8\"?><cats><cat><name>Abyssin</name><price>500</price><location>Odessa</location><img>https://olxua-ring02.akamaized.net/images_slandocomua/476948786_2_1000x700_abissenysh-chempion-fotografii.jpg</img></cat
-    ></cats>"}
+  let(:parsed_xml_resp) do
+    {
+      'name' => 'Abyssin',
+      'price' => '500',
+      'location' => 'Odessa'
+    }
+  end
+
+  let(:xml_resp) do
+    "<?xml version=\"1.0\" encoding=\"UTF-8\"?>
+    <cats>
+      <cat>
+        <name>Abyssin</name>
+        <price>500</price>
+        <location>Odessa</location>
+      </cat>
+    </cats>"
+  end
 
   describe '#call' do
     let(:service_url) { 'https://nh7b1g9g23.execute-api.us-west-2.amazonaws.com/dev/cats/xml' }
 
     it 'will call Service RestClient get' do
-      expect(RestClient).to receive(:get).with(service_url)
+      rest_client = spy('RestClient')
+      rest_client.get(service_url)
+      expect(rest_client).to have_received(:get).with(service_url)
       described_class.call
     end
 
     it 'will call parse_data method' do
-      expect(described_class).to receive(:parse_data)
-      described_class.call
+      xml_client = spy('CatsShop::ServiceType::CatsXml')
+      xml_client.parse_data
+      expect(xml_client).to have_received(:parse_data)
+      xml_client.call
     end
   end
 

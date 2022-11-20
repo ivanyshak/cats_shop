@@ -1,25 +1,51 @@
-Cats Dealer 
-==================
+# Cats Shop Service
 
-### Hi, there!
-You are going to create a simple service that allows finding the best cat with the best price for customer location.
+Cats Shop Service is a Ruby service for dealing with the 3-d party services that hold cat data.
 
-There are cat shops that have pricelists accessible via REST API. What your service will do is just get prices from each shop, compare them and suggest the best deal for a customer!
+## Install and run
 
-We created 2 fake test shops for you.
-1. "Cats Unlimited" API (JSON response) - [https://nh7b1g9g23.execute-api.us-west-2.amazonaws.com/dev/cats/json](https://nh7b1g9g23.execute-api.us-west-2.amazonaws.com/dev/cats/json)
-2. "Happy Cats" API (XML response) - [https://nh7b1g9g23.execute-api.us-west-2.amazonaws.com/dev/cats/xml](https://nh7b1g9g23.execute-api.us-west-2.amazonaws.com/dev/cats/xml)  
+Clone the project:
 
-As of now, service only supports "Cats Unlimited" integration. On top of that, existing code was written by Trainee Ruby developer and could use some refactoring.
+```bash
+git clone https://github.com/ivanyshak/cats_shop
+bundle install
+rake db:migrate
+rails server
+```
 
-### The task is the following:
-1. Implement "XML" integration, and improve business logic to find the best deal amongst two shops.
-2. Make service an API-only. Let's remove FE implementation.
-3. Refactor or rewrite the existing code. We wanna see a clean design, readable code, good test coverage.
+## Usage
 
-#### Things to watch out for:
-* Right now our product supports only two cat shops. However, that can change in a future.
-* As you know, 3rd-party integrations often behave unpredictably. Let's make sure that our product can handle errors from these services.
+##### Send the request to our cats API with the *:name* and *:location* params and get the result with the desired cats selected by price in :asc order
 
-### Good luck and looking forward to seeing a finished project.
+```ruby
+http://localhost:3000/api/v1/cats?name=Abyssin&location=Lviv
+
+{
+  "data": {
+    "data": [
+      {
+          "id": 1,
+          "name": "Abyssin",
+          "price": 500.0,
+          "location": "Lviv",
+          "image": "https://olxua-ring02.akamaized.net/images_slandocomua/476948786_2_1000x700_abissenysh-chempion-fotografii.jpg",
+          "created_at": "2022-11-15T10:59:00.536Z",
+          "updated_at": "2022-11-15T10:59:00.536Z"
+      },
+      {
+          "id": 2,
+          "name": "Abyssin",
+          "price": 550.0,
+          "location": "Lviv",
+          "image": "https://olxua-ring10.akamaized.net/images_slandocomua/342850976_3_1000x700_abidetki-koti_rev006.jpg",
+          "created_at": "2022-11-15T10:59:00.538Z",
+          "updated_at": "2022-11-15T10:59:00.538Z"
+      }
+    ],
+    "json_error_msg": false,
+    "xml_error_msg": false
+  }
+}
+
+```
 

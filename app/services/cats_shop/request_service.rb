@@ -1,8 +1,11 @@
+# frozen_string_literal: true
+
 module CatsShop
   class RequestService < ApplicationService
     attr_reader :params
 
     def initialize(params)
+      super()
       @params = params
     end
 
@@ -18,7 +21,7 @@ module CatsShop
 
     def response
       {
-        data: Cat.filter_name_and_location(params),
+        data: Cat.filter_name_and_location(params).order(:price),
         json_error_msg: @json_result.include?(:error_msg) && @json_result[:error_msg],
         xml_error_msg: @xml_result.include?(:error_msg) && @xml_result[:error_msg]
       }

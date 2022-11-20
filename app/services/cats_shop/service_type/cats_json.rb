@@ -1,16 +1,16 @@
+# frozen_string_literal: true
+
 module CatsShop
   module ServiceType
     class CatsJson
-      SERVICE_URL = 'https://nh7b1g9g23.execute-api.us-west-2.amazonaws.com/dev/cats/json'.freeze
+      SERVICE_URL = 'https://nh7b1g9g23.execute-api.us-west-2.amazonaws.com/dev/cats/json'
 
       class << self
         def call
-          begin
-            data = RestClient.get(SERVICE_URL)
-            parse_data(data.body)
-          rescue
-            handle_unsuccessful_request
-          end
+          data = RestClient.get(SERVICE_URL)
+          parse_data(data.body)
+        rescue StandardError
+          handle_unsuccessful_request
         end
 
         def parse_data(data)
@@ -20,7 +20,7 @@ module CatsShop
         private
 
         def handle_unsuccessful_request
-          { 'error_msg': 'JSON API errors' }
+          {'error_msg': 'JSON API errors'}
         end
       end
     end

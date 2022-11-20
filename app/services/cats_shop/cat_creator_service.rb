@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module CatsShop
   class CatCreatorService
     attr_reader :list
